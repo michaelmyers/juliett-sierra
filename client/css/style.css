@@ -218,20 +218,9 @@ td { vertical-align: top; }
    Author:
    ========================================================================== */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+body {
+    overflow: hidden;
+}
 
 /* ==|== media queries ======================================================
    EXAMPLE Media Query for Responsive Design.

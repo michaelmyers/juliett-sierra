@@ -28,7 +28,8 @@ var g_resources = [
 var jsApp = {
 	onload: function () {
         "use strict";
-		if (!me.video.init('jsapp', 800, 480)) {
+
+		if (!me.video.init('jsapp', $(window).width(), $(window).height())) {
 			alert("Sorry but your browser does not support HTML5 canvas." +
                 " Please use Chrome or Firefox");
 			return;
@@ -96,17 +97,14 @@ var PlayerEntity = me.ObjectEntity.extend({
         this.parent(x, y, settings);
 
         // set the walking speed
-        this.setVelocity(2, 2);
+        this.setVelocity(1, 1);
 
         this.setFriction(0.2, 0.2);
 
         // disable gravity
         this.gravity = 0;
 
-        this.firstUpdates = 2;
         this.direction = 'down';
-        this.destinationX = x;
-        this.destinationY = y;
 
         this.addAnimation("stand-down", [0]);
         this.addAnimation("stand-down-left", [1]);
@@ -160,13 +158,15 @@ var PlayerEntity = me.ObjectEntity.extend({
 
     handleInput: function () {
         "use strict";
-
+        //this is ugly code, TODO: rework this later
         if (me.input.isKeyPressed('left')) {
             this.vel.x -= this.accel.x * me.timer.tick;
             if (me.input.isKeyPressed('down')) {
                 this.direction = 'down-left';
+                this.vel.y = this.accel.y * me.timer.tick;
             } else if (me.input.isKeyPressed('up')) {
                 this.direction = 'up-left';
+                this.vel.y = -this.accel.y * me.timer.tick;
             } else {
                 this.direction = 'left';
             }
@@ -175,44 +175,27 @@ var PlayerEntity = me.ObjectEntity.extend({
             this.vel.x += this.accel.x * me.timer.tick;
             if (me.input.isKeyPressed('down')) {
                 this.direction = 'down-right';
+                this.vel.y = this.accel.y * me.timer.tick;
             } else if (me.input.isKeyPressed('up')) {
                 this.direction = 'up-right';
+                this.vel.y = -this.accel.y * me.timer.tick;
             } else {
                 this.direction = 'right';
             }
             this.setCurrentAnimation(this.direction);
-        }
-
-        /*
-        if (me.input.isKeyPressed('left')) {
-            //this.updateColRect(5, 30, 17, 20);
-            this.vel.x -= this.accel.x * me.timer.tick;
-            this.setCurrentAnimation('left');
-            this.direction = 'left';
-        } else if (me.input.isKeyPressed('right')) {
-            //this.updateColRect(5, 30, 17, 20);
-            this.vel.x += this.accel.x * me.timer.tick;
-            this.setCurrentAnimation('right');
-            this.direction = 'right';
-        }
-
-        */
-        /*
-        if (me.input.isKeyPressed('up')) {
-            //this.updateColRect(13, 15, 17, 20);
+        } else if (me.input.isKeyPressed('up') &&
+                (!me.input.isKeyPressed('left') ||
+                    !me.input.isKeyPressed('right'))) {
             this.vel.y = -this.accel.y * me.timer.tick;
-            this.setCurrentAnimation('up');
             this.direction = 'up';
-        } else if (me.input.isKeyPressed('down')) {
-            //this.updateColRect(13, 15, 17, 20);
+            this.setCurrentAnimation(this.direction);
+        } else if (me.input.isKeyPressed('down') &&
+                (!me.input.isKeyPressed('left') ||
+                    !me.input.isKeyPressed('right'))) {
             this.vel.y = this.accel.y * me.timer.tick;
-            this.setCurrentAnimation('down');
             this.direction = 'down';
-        }  */
+            this.setCurrentAnimation(this.direction);
+        }
     }
 });
 
-window.onReady(function () {
-    "use strict";
-	jsApp.onload();
-});
