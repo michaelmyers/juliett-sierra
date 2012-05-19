@@ -1,0 +1,218 @@
+/*!
+ * 
+ *   melonJS
+ *   http://www.melonjs.org
+ *		
+ *   Step by step game creation tutorial
+ *
+ **/
+
+/*global me: false */
+
+var PlayScreen, PlayerEntity;
+
+// game resources
+var g_resources = [
+	// map tiles
+    {name: "isometric_grass_and_water", type: "image",
+        src: "../img/tiles/isometric_grass_and_water.png"},
+	// map
+    {name: "map", type: "tmx",
+        src: "../maps/map_1.tmx"},
+	// the main player spritesheet
+	{name: "mech", type: "image",
+        src: "../img/sprites/mechwarrior.png"}
+];
+
+
+var jsApp = {
+	onload: function () {
+        "use strict";
+		if (!me.video.init('jsapp', 800, 480)) {
+			alert("Sorry but your browser does not support HTML5 canvas." +
+                " Please use Chrome or Firefox");
+			return;
+		}
+		// set all resources to be loaded
+		me.loader.onload = this.loaded.bind(this);
+		// set all resources to be loaded
+		me.loader.preload(g_resources);
+
+        //me.animationspeed = me.sys.fps / 10;
+
+        // load everything & display a loading screen
+		me.state.change(me.state.LOADING);
+	},
+
+	loaded: function () {
+        "use strict";
+		// set the "Play/Ingame" Screen Object
+		me.state.set(me.state.PLAY, new PlayScreen());
+
+		// add our player entity in the entity pool
+		me.entityPool.add("mainPlayer", PlayerEntity);
+
+		// enable the keyboard
+		me.input.bindKey(me.input.KEY.LEFT,		"left");
+		me.input.bindKey(me.input.KEY.RIGHT,	"right");
+        me.input.bindKey(me.input.KEY.UP,       "up");
+        me.input.bindKey(me.input.KEY.DOWN,     "down");
+
+        //me.debug.renderHitBox = true;
+		// start the game 
+        me.state.change(me.state.PLAY);
+	}
+
+}; // jsApp
+
+/* the in game stuff*/
+var PlayScreen = me.ScreenObject.extend({
+
+	onResetEvent: function () {
+        "use strict";
+		// load a level
+		me.levelDirector.loadLevel("map");
+
+	},
+
+	/* ---
+	
+		 action to perform when game is finished (state change)
+		
+		---	*/
+	onDestroyEvent: function () {
+        "use strict";
+    }
+
+});
+
+var PlayerEntity = me.ObjectEntity.extend({
+    /**
+     * @constructor
+     */
+    init: function (x, y, settings) {
+        "use strict";
+        // call the parent constructor
+        this.parent(x, y, settings);
+
+        // set the walking speed
+        this.setVelocity(2, 2);
+
+        this.setFriction(0.2, 0.2);
+
+        // disable gravity
+        this.gravity = 0;
+
+        this.firstUpdates = 2;
+        this.direction = 'down';
+        this.destinationX = x;
+        this.destinationY = y;
+
+        this.addAnimation("stand-down", [0]);
+        this.addAnimation("stand-down-left", [1]);
+        this.addAnimation("stand-left", [2]);
+        this.addAnimation("stand-up-left", [3]);
+        this.addAnimation("stand-up", [4]);
+        this.addAnimation("stand-up-right", [5]);
+        this.addAnimation("stand-right", [6]);
+        this.addAnimation("stand-down-right", [7]);
+        this.addAnimation("down", [0, 8, 16, 24, 32, 48, 56, 64, 72, 80]);
+        this.addAnimation("down-left", [1, 9, 17, 25, 33, 41, 49, 57, 65, 73,
+            81, 89, 97, 105, 113, 121, 129]);
+        this.addAnimation("left", [2, 10, 18, 26, 34, 42, 50, 58, 66, 74]);
+        this.addAnimation("up-left", [3, 11, 19, 27, 35, 43, 51, 59, 67, 75,
+            83, 91, 99, 107, 115, 123]);
+        this.addAnimation("up", [4, 12, 20, 28, 36, 44, 52, 60, 68, 76, 84]);
+        this.addAnimation("up-right", [5, 13, 21, 29, 37, 45, 53, 61, 69, 77,
+            85, 93, 101, 109, 117, 125]);
+        this.addAnimation("right", [6, 14, 22, 30, 38, 46, 54, 62, 70, 78]);
+        this.addAnimation("down-right", [7, 15, 23, 31, 39, 47, 55, 63, 71, 79,
+            87, 95, 103, 111, 119, 127, 135]);
+
+        // set the display to follow our position on both axis
+        me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
+    },
+
+    update: function () {
+        "use strict";
+        var hadSpeed, updated;
+        hadSpeed = this.vel.y !== 0 || this.vel.x !== 0;
+
+        this.handleInput();
+
+        // check & update player movement
+        updated = this.updateMovement();
+
+        if (this.vel.y === 0 && this.vel.x === 0) {
+            this.setCurrentAnimation('stand-' + this.direction);
+            if (hadSpeed) {
+                updated = true;
+            }
+        }
+
+        // update animation
+        if (updated) {
+            // update object animation
+            this.parent(this);
+        }
+        return updated;
+    },
+
+    handleInput: function () {
+        "use strict";
+
+        if (me.input.isKeyPressed('left')) {
+            this.vel.x -= this.accel.x * me.timer.tick;
+            if (me.input.isKeyPressed('down')) {
+                this.direction = 'down-left';
+            } else if (me.input.isKeyPressed('up')) {
+                this.direction = 'up-left';
+            } else {
+                this.direction = 'left';
+            }
+            this.setCurrentAnimation(this.direction);
+        } else if (me.input.isKeyPressed('right')) {
+            this.vel.x += this.accel.x * me.timer.tick;
+            if (me.input.isKeyPressed('down')) {
+                this.direction = 'down-right';
+            } else if (me.input.isKeyPressed('up')) {
+                this.direction = 'up-right';
+            } else {
+                this.direction = 'right';
+            }
+            this.setCurrentAnimation(this.direction);
+        }
+
+        /*
+        if (me.input.isKeyPressed('left')) {
+            //this.updateColRect(5, 30, 17, 20);
+            this.vel.x -= this.accel.x * me.timer.tick;
+            this.setCurrentAnimation('left');
+            this.direction = 'left';
+        } else if (me.input.isKeyPressed('right')) {
+            //this.updateColRect(5, 30, 17, 20);
+            this.vel.x += this.accel.x * me.timer.tick;
+            this.setCurrentAnimation('right');
+            this.direction = 'right';
+        }
+
+        */
+        /*
+        if (me.input.isKeyPressed('up')) {
+            //this.updateColRect(13, 15, 17, 20);
+            this.vel.y = -this.accel.y * me.timer.tick;
+            this.setCurrentAnimation('up');
+            this.direction = 'up';
+        } else if (me.input.isKeyPressed('down')) {
+            //this.updateColRect(13, 15, 17, 20);
+            this.vel.y = this.accel.y * me.timer.tick;
+            this.setCurrentAnimation('down');
+            this.direction = 'down';
+        }  */
+    }
+});
+
+window.onReady(function () {
+    "use strict";
+	jsApp.onload();
+});
