@@ -215,11 +215,58 @@ td { vertical-align: top; }
 
 
 /* ==|== primary styles =====================================================
-   Author:
+   Author: m. myers
    ========================================================================== */
 
 body {
     overflow: hidden;
+}
+
+#container {
+    clear: both;
+    margin: 0;
+    padding: 0;
+}
+
+.panel {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    display: none;
+    background: #000000;
+    -moz-border-radius-topright: 20px;
+    -webkit-border-top-right-radius: 20px;
+    -moz-border-radius-bottomright: 20px;
+    -webkit-border-bottom-right-radius: 20px;
+    width: 500px;
+    height: auto;
+    padding-left: 60px;
+    filter: alpha(opacity=85);
+    opacity: .85;
+    color: #FFFFFF;
+}
+a.trigger{
+    position: absolute;
+    text-decoration: none;
+    top: 80px; left: 0;
+    font-size: 16px;
+    letter-spacing:-1px;
+    font-family: verdana, helvetica, arial, sans-serif;
+    color:#fff;
+    padding: 5px 5px 5px 5px;
+    font-weight: 700;
+    background:#333333;
+    border:1px solid #444444;
+    -moz-border-radius-topright: 20px;
+    -webkit-border-top-right-radius: 20px;
+    -moz-border-radius-bottomright: 20px;
+    -webkit-border-bottom-right-radius: 20px;
+    -moz-border-radius-bottomleft: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    display: block;
+}
+a.active.trigger {
+    background:#222222;
 }
 
 /* ==|== media queries ======================================================

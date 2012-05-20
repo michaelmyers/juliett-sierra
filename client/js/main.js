@@ -62,7 +62,13 @@ var jsApp = {
         //me.debug.renderHitBox = true;
 		// start the game 
         me.state.change(me.state.PLAY);
-	}
+	},
+
+    windowResize: function () {
+        "use strict";
+        console.log("Inside windowResize");
+        me.levelDirector.loadLevel("map");
+    }
 
 }; // jsApp
 
@@ -97,7 +103,7 @@ var PlayerEntity = me.ObjectEntity.extend({
         this.parent(x, y, settings);
 
         // set the walking speed
-        this.setVelocity(1, 1);
+        this.setVelocity(1.2, 1.2);
 
         this.setFriction(0.2, 0.2);
 
@@ -106,6 +112,7 @@ var PlayerEntity = me.ObjectEntity.extend({
 
         this.direction = 'down';
 
+        //set up sprite sheet
         this.addAnimation("stand-down", [0]);
         this.addAnimation("stand-down-left", [1]);
         this.addAnimation("stand-left", [2]);
