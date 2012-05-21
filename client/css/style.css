@@ -253,7 +253,7 @@ a.trigger{
     letter-spacing:-1px;
     font-family: verdana, helvetica, arial, sans-serif;
     color:#fff;
-    padding: 5px 5px 5px 5px;
+    padding: 5px 12px 5px 5px;
     font-weight: 700;
     background:#333333;
     border:1px solid #444444;
@@ -264,6 +264,8 @@ a.trigger{
     -moz-border-radius-bottomleft: 0px;
     -webkit-border-bottom-left-radius: 0px;
     display: block;
+    filter: alpha(opacity=85);
+    opacity: .85;
 }
 a.active.trigger {
     background:#222222;
