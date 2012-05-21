@@ -1,13 +1,12 @@
-/*!
- * 
- *   melonJS
- *   http://www.melonjs.org
- *		
- *   Step by step game creation tutorial
+/**
+ * Animatronic
+ * @license Copyright (C) 2012, Atomizer Software
+ * http://atomizersoft.net
  *
- **/
+ * @author Atomizer Software
+ */
 
-/*global me: false */
+/*global me: false, $: false */
 
 var PlayScreen, PlayerEntity;
 
@@ -34,7 +33,7 @@ var jsApp = {
                 " Please use Chrome or Firefox");
 			return;
 		}
-		// set all resources to be loaded
+
 		me.loader.onload = this.loaded.bind(this);
 		// set all resources to be loaded
 		me.loader.preload(g_resources);
@@ -81,12 +80,7 @@ var PlayScreen = me.ScreenObject.extend({
 		me.levelDirector.loadLevel("map");
 
 	},
-
-	/* ---
-	
-		 action to perform when game is finished (state change)
-		
-		---	*/
+    //action for when game is finished
 	onDestroyEvent: function () {
         "use strict";
     }
@@ -163,6 +157,16 @@ var PlayerEntity = me.ObjectEntity.extend({
         return updated;
     },
 
+    getX: function () {
+        "use strict";
+        return this.pos.x;
+    },
+
+    getY: function () {
+        "use strict";
+        return this.pos.y;
+    },
+
     handleInput: function () {
         "use strict";
         //this is ugly code, TODO: rework this later
@@ -203,6 +207,8 @@ var PlayerEntity = me.ObjectEntity.extend({
             this.direction = 'down';
             this.setCurrentAnimation(this.direction);
         }
+        //console.log("X: " + this.pos.x + " Y: " + this.pos.y);
+        //console.log("X: " + this.getX() + " Y: " + this.getY());
     }
 });
 

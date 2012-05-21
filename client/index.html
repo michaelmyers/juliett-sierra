@@ -54,13 +54,14 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
          <form>
             <textarea id="code" name="code">//Write Code Here...</textarea>
          </form>
+
+        <div style="clear:both;"></div>
+        <div id="editor-menu">
+            <button>Run</button>
+        </div>
+        <div style="clear:both;"></div>
     </div>
-    <div style="clear:both;"></div>
-    <div id="editor-menu">
-        <h2>Hi</h2>
-        <button>Run</button>
-    </div>
-    <a class="trigger" href="#">{ }</a>
+<a class="trigger" href="#">{ }</a>
 
 </div>
 <footer>
@@ -82,7 +83,9 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
 <script src="js/libs/codemirror.js"></script>
 <script src="js/libs/javascript.js"></script>
 <script src="js/libs/melonJS-0.9.4.js"></script>
+
 <script src="js/main.js"></script>
+<script src="js/robot.js"></script>
 <script>
 
 
@@ -97,6 +100,22 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
 
         jsApp.onload();
 
+        //this doesn't work
+        //console.log(PlayerEntity.getX());
+
+        //this doesn't work
+        /*var getX = PlayerEntity.getX();
+        var boundGetX = getX.bind(PlayerEntity);
+        console.log(boundGetX());  */
+
+        $("button").click(function () {
+            //console.log(editor.getValue());
+            var script = document.createElement ('script');
+            script.type = 'text/javascript';
+            script.text = editor.getValue();
+            document.getElementById('beta').appendChild(script);
+        });
+
         $(".trigger").click(function(){
             $(".panel").toggle("fast");
             $(this).toggleClass("active");
@@ -108,8 +127,9 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
     });
 
 </script>
-
 <!-- end scripts -->
+
+<div id="beta"></div>
 
 <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
 mathiasbynens.be/notes/async-analytics-snippet -->

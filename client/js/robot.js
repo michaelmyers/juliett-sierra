@@ -4,6 +4,8 @@
  * Time: 11:32 PM
  */
 
+/*global PlayerEntity: false */
+
 var robot = {
     direction: null,
     distance: 1,
@@ -22,6 +24,16 @@ var robot = {
         "use strict";
         this.distance = dist;
         this.direction = dir;
+    },
+
+    getX: function () {
+        "use strict";
+        return PlayerEntity.pos.x;
+    },
+
+    getY: function () {
+        "use strict";
+        return PlayerEntity.getY();
     }
 };
 

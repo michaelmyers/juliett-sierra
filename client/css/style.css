@@ -271,6 +271,11 @@ a.active.trigger {
     background:#222222;
 }
 
+#editor-menu {
+    padding: 5px 5px 5px 5px;
+}
+
+
 /* ==|== media queries ======================================================
    EXAMPLE Media Query for Responsive Design.
    This example overrides the primary ('mobile first') styles
