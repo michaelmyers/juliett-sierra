@@ -4,34 +4,41 @@
  * Time: 11:32 PM
  */
 
-/*global PlayerEntity: false, left: false, up:false, down:false, right:false */
+/*global PlayerEntity: false, left: true, up:true, down:true, right:true */
 
 
-var robot = {};
+var robot = {
+    active : false
+};
 
 robot.directions = ['left', 'right', 'up', 'down'];
+
+
 
 robot.move = function (direction, millisecs) {
     'use strict';
     if (robot.directions.indexOf(direction) === -1) {
         alert('Bad direction');
-
     }
-    robot.stop();
+    robot.active = true;
 
     switch (direction) {
-
     case 'left':
-        setTimeout('left = true;', millisecs);
+        left = true;
         break;
     case 'right':
-        setTimeout('right = true;',millisecs);
+        right = true;
+        break;
+    case 'up':
+        up = true;
+        break;
+    case 'down':
+        down = true;
+        break;
     }
-
-    setTimeout()
-
-
-
+    setTimeout(function () {
+        robot.stop();
+    }, millisecs);
 };
 
 robot.stop = function () {
@@ -40,6 +47,7 @@ robot.stop = function () {
     right = false;
     up = false;
     down = false;
+    robot.active = false;
 };
 
 

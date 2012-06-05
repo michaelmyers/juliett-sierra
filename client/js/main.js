@@ -175,8 +175,7 @@ var PlayerEntity = me.ObjectEntity.extend({
     handleInput: function () {
         "use strict";
         //console.log('handle input');
-        var prevDir = this.direction;
-        var newDir = ""
+        var newDir = "";
         //this is ugly code, TODO: rework this ugly code
 
 
@@ -194,63 +193,12 @@ var PlayerEntity = me.ObjectEntity.extend({
             this.vel.x = this.accel.x * me.timer.tick;
             newDir = newDir + 'right';
         }
-        console.log('this.direction: ' + this.direction + ' newDir: ' + newDir);
+        //console.log('this.direction: ' + this.direction + ' newDir: ' + newDir);
 
         if (newDir !== "") {
             this.direction = newDir;
             this.setCurrentAnimation(this.direction);
         }
-        /*
-        if (this.direction === "" && prevDir === "") {
-            this.setCurrentAnimation('stand-down');
-        } else if (this.direction === "" && prevDir !== "") {
-            this.setCurrentAnimation(prevDir);
-        } else {
-            this.direction = newDir;
-            this.setCurrentAnimation(this.direction);
-        }  */
-
-        /*
-        //left = 0, up = 1, right = 2, down = 3
-        if (me.input.isKeyPressed('left') || entityDirection === 0) {
-            this.vel.x -= this.accel.x * me.timer.tick;
-            if (me.input.isKeyPressed('down') || entityDirection === 3) {
-                this.direction = 'down-left';
-                this.vel.y = this.accel.y * me.timer.tick;
-            } else if (me.input.isKeyPressed('up') || entityDirection === 1) {
-                this.direction = 'up-left';
-                this.vel.y = -this.accel.y * me.timer.tick;
-            } else {
-                this.direction = 'left';
-            }
-            this.setCurrentAnimation(this.direction);
-        } else if (me.input.isKeyPressed('right') || entityDirection === 2) {
-            this.vel.x += this.accel.x * me.timer.tick;
-            if (me.input.isKeyPressed('down') || entityDirection === 3) {
-                this.direction = 'down-right';
-                this.vel.y = this.accel.y * me.timer.tick;
-            } else if (me.input.isKeyPressed('up') || entityDirection === 1) {
-                this.direction = 'up-right';
-                this.vel.y = -this.accel.y * me.timer.tick;
-            } else {
-                this.direction = 'right';
-            }
-            this.setCurrentAnimation(this.direction);
-        } else if (me.input.isKeyPressed('up') &&
-                (!me.input.isKeyPressed('left') ||
-                    !me.input.isKeyPressed('right'))) {
-            this.vel.y = -this.accel.y * me.timer.tick;
-            this.direction = 'up';
-            this.setCurrentAnimation(this.direction);
-        } else if (me.input.isKeyPressed('down') &&
-                (!me.input.isKeyPressed('left') ||
-                    !me.input.isKeyPressed('right'))) {
-            this.vel.y = this.accel.y * me.timer.tick;
-            this.direction = 'down';
-            this.setCurrentAnimation(this.direction);
-        }    */
-        //console.log("X: " + this.pos.x + " Y: " + this.pos.y);
-        //console.log("X: " + this.getX() + " Y: " + this.getY());
     }
 });
 
