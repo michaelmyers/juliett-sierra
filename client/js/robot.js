@@ -4,7 +4,8 @@
  * Time: 11:32 PM
  */
 
-/*global PlayerEntity: false, left: true, up:true, down:true, right:true */
+/*global PlayerEntity: false, left: true, up:true, down:true, right:true,
+             curYPos: false, curXPos: false */
 
 
 var robot = {
@@ -50,12 +51,25 @@ robot.stop = function () {
     robot.active = false;
 };
 
+robot.getCurrentXPos = function () {
+    "use strict";
+    return curXPos;
+
+};
+
+robot.getCurrentYPos = function () {
+    "use strict";
+    return curYPos;
+};
+
+robot.moveUnit = function (direction, units) {
+    "use strict";
+    var x, y;
+    x = robot.getCurrentXPos();
+    y = robot.getCurrentYPos();
 
 
-
-
-
-
+}
 
 /*var robot = {
     direction: null,

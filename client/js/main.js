@@ -10,10 +10,9 @@
 
 var PlayScreen, PlayerEntity;
 
-var entityDirection;
-
-
 var up, down, left, right;
+
+var curXPos, curYPos;
 
 // game resources
 var g_resources = [
@@ -161,7 +160,7 @@ var PlayerEntity = me.ObjectEntity.extend({
         }
         return updated;
     },
-
+    /*
     getX: function () {
         "use strict";
         return this.pos.x;
@@ -170,14 +169,12 @@ var PlayerEntity = me.ObjectEntity.extend({
     getY: function () {
         "use strict";
         return this.pos.y;
-    },
+    },  */
 
     handleInput: function () {
         "use strict";
-        //console.log('handle input');
-        var newDir = "";
-        //this is ugly code, TODO: rework this ugly code
 
+        var newDir = "";
 
         if (up === true) {
             this.vel.y = -this.accel.y * me.timer.tick;
@@ -194,11 +191,15 @@ var PlayerEntity = me.ObjectEntity.extend({
             newDir = newDir + 'right';
         }
         //console.log('this.direction: ' + this.direction + ' newDir: ' + newDir);
+        //console.log("X: " + this.pos.x + " Y: " + this.pos.y);
+        //console.log("X: " + this.getX() + " Y: " + this.getY());
 
         if (newDir !== "") {
             this.direction = newDir;
             this.setCurrentAnimation(this.direction);
         }
+        curXPos = this.pos.x;
+        curYPos = this.pos.y;
     }
 });
 
