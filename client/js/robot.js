@@ -8,19 +8,27 @@
              curYPos: false, curXPos: false */
 
 
+var RobotPosition = function () {
+    "use strict";
+
+    this.x = null;
+    this.y = null;
+};
+
+
 var robot = {
     active : false
 };
 
-robot.directions = ['left', 'right', 'up', 'down'];
+robot.directions = ['left', 'right', 'up', 'down', 'downleft', 'downright', 'upleft', 'upright'];
 
-
-
-robot.move = function (direction, millisecs) {
-    'use strict';
+robot.setDirection = function (direction) {
+    "use strict";
     if (robot.directions.indexOf(direction) === -1) {
         alert('Bad direction');
+        return false;
     }
+
     robot.active = true;
 
     switch (direction) {
@@ -36,7 +44,35 @@ robot.move = function (direction, millisecs) {
     case 'down':
         down = true;
         break;
+    case 'downleft':
+        down = true;
+        left = true;
+        break;
+    case 'downright':
+        down = true;
+        right = true;
+        break;
+    case 'upleft':
+        up = true;
+        left = true;
+        break;
+    case 'upright':
+        up = true;
+        right = true;
+        break;
     }
+    return true;
+
+};
+
+robot.move = function (direction, millisecs) {
+    'use strict';
+
+    if (!robot.setDirection(direction)) {
+        console.log('Bad direction');
+        return false;
+    }
+
     setTimeout(function () {
         robot.stop();
     }, millisecs);
@@ -51,55 +87,45 @@ robot.stop = function () {
     robot.active = false;
 };
 
-robot.getCurrentXPos = function () {
+robot.getCurrentPos = function () {
     "use strict";
-    return curXPos;
+    var curPos = new RobotPosition();
+    curPos.x = curXPos;
+    curPos.y = curYPos;
 
+    return curPos;
 };
 
-robot.getCurrentYPos = function () {
+robot.distanceTo = function (newPos) {
     "use strict";
-    return curYPos;
+    var curPos;
+    curPos = robot.getCurrentPos();
+    console.log('curX: ' + curPos.x + ' curY: ' + curPos.y);
+
+    return Math.sqrt(Math.pow((curPos.x - newPos.x), 2) + Math.pow((curPos.y - newPos.y), 2));
+};
+
+robot.moveTo = function (newPos) {
+    "use strict";
+    var curPos;
+    curPos = robot.getCurrentPos();
+
+    if (newPos.y < curPos.y) {
+
+    }
+
+
+
 };
 
 robot.moveUnit = function (direction, units) {
     "use strict";
-    var x, y;
-    x = robot.getCurrentXPos();
-    y = robot.getCurrentYPos();
+    var x, y, curPos;
+    curPos = new RobotPosition();
 
 
-}
+};
 
-/*var robot = {
-    direction: null,
-    distance: 1,
 
-    directions: {north: 1, west: 2, south: 3, east: 4},
-
-    init: function () {
-        "use strict";
-        this.direction = this.directions.north;
-        this.direction = this.directions.west;
-        this.direction = this.directions.south;
-        this.direction = this.directions.east;
-    },
-
-    move: function (dist, dir) {
-        "use strict";
-        this.distance = dist;
-        this.direction = dir;
-    },
-
-    getX: function () {
-        "use strict";
-        return PlayerEntity.pos.x;
-    },
-
-    getY: function () {
-        "use strict";
-        return PlayerEntity.getY();
-    }
-};  */
 
 
