@@ -23,18 +23,13 @@
     <meta name="viewport" content="width=device-width">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
-
+    <link rel="stylesheet" href="css/ui.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/codemirror.css">
     <link rel="stylesheet" href="css/night.css">
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
           rel="stylesheet" type="text/css"/>
 
-    <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
-
-    <!-- All JavaScript at the bottom, except this Modernizr build.
-Modernizr enables HTML5 elements & feature detects for optimal performance.
-Create your own custom Modernizr build: www.modernizr.com/download/ -->
     <script src="js/libs/modernizr-2.5.3.min.js"></script>
 </head>
 <body>
@@ -50,24 +45,21 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
     <div id="container">
         <div id="jsapp"></div>
     </div>
-    <div class="panel">
-         <form>
-            <textarea id="code" name="code">//Write Code Here...</textarea>
-         </form>
-
-        <div style="clear:both;"></div>
-        <div id="editor-menu">
-            <button>Run</button>
+    <div id="ui">
+        <div id="editor" class="panel-container left open-click" style="top: 25%;">
+            <a class="tab left" href="#editor">{ }</a>
+            <div class="panel left">
+                <form>
+                    <textarea id="code" name="code">//Write Code Here...</textarea>
+                </form>
+                <div style="clear:both;"></div>
+                <div id="editor-menu">
+                    <button>Run</button>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
         </div>
-        <div style="clear:both;"></div>
     </div>
-
-
-    <div class="debug">
-        <
-    </div>
-
-<a class="trigger" href="#">{ }</a>
 
 </div>
 <footer>
@@ -88,6 +80,7 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
 <script src="js/libs/codemirror.js"></script>
 <script src="js/libs/javascript.js"></script>
 <script src="js/libs/melonJS-0.9.4.js"></script>
+<script src="js/ui.js"></script>
 
 <script src="js/main.js"></script>
 <script src="js/robot.js"></script>
@@ -105,14 +98,6 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
 
         jsApp.onload();
 
-        //this doesn't work
-        //console.log(PlayerEntity.getX());
-
-        //this doesn't work
-        /*var getX = PlayerEntity.getX();
-        var boundGetX = getX.bind(PlayerEntity);
-        console.log(boundGetX());  */
-
         $("button").click(function () {
             //console.log(editor.getValue());
             var script = document.createElement ('script');
@@ -120,15 +105,6 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
             script.text = editor.getValue();
             document.getElementById('beta').appendChild(script);
         });
-
-        $(".trigger").click(function(){
-            $(".panel").toggle("fast");
-            $(this).toggleClass("active");
-            editor.refresh();
-            return false;
-        });
-
-
     });
 
 </script>
