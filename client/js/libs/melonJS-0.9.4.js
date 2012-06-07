@@ -6523,7 +6523,7 @@
 		 *            sound_id audio clip id
 		 * @example me.audio.stop("cling");
 		 */
-		obj.stop = function(sound_id) {
+		obj.stopAll = function(sound_id) {
 			if (sound_enable) {
 				var sound = audio_channels[sound_id.toLowerCase()];
 				for (var channel_id = sound.length; channel_id--;) {
@@ -10190,7 +10190,7 @@
 		 * @public
 		 * @function
 		 */
-		this.stop = function() {
+		this.stopAll = function() {
 
 			me.game.remove(this);
 			return this;

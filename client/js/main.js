@@ -6,7 +6,7 @@
  * @author Atomizer Software
  */
 
-/*global me: false, $: false */
+/*global me: false, $: false, robot:true */
 
 var PlayScreen, PlayerEntity;
 
@@ -199,7 +199,9 @@ var PlayerEntity = me.ObjectEntity.extend({
             this.setCurrentAnimation(this.direction);
         }
         curXPos = this.pos.x;
+        robot.currentPosition.x = this.pos.x;
         curYPos = this.pos.y;
+        robot.currentPosition.y = this.pos.y;
     }
 });
 

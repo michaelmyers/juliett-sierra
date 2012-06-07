@@ -2828,7 +2828,7 @@ var CodeMirror = (function() {
   function stopMethod() {e_stop(this);}
   // Ensure an event has a stop method.
   function addStop(event) {
-    if (!event.stop) event.stop = stopMethod;
+    if (!event.stopAll) event.stopAll = stopMethod;
     return event;
   }
 

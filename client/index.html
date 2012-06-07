@@ -46,17 +46,47 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
         <div id="jsapp"></div>
     </div>
     <div id="ui">
-        <div id="editor" class="panel-container left open-click" style="top: 25%;">
-            <a class="tab left" href="#editor">{ }</a>
+        <div id="editor" class="panel-container left" style="top: 25%;">
+            <a class="tab left open-click" href="#editor">{ }</a>
             <div class="panel left">
+                <div>
                 <form>
-                    <textarea id="code" name="code">//Write Code Here...</textarea>
+                    <textarea id="code" name="code">robot.moveTo(new RobotPosition(1000, 100));</textarea>
                 </form>
                 <div style="clear:both;"></div>
                 <div id="editor-menu">
                     <button>Run</button>
                 </div>
                 <div style="clear:both;"></div>
+                </div>
+            </div>
+        </div>
+        <div id="debug" class="panel-container right" style="top:12%;">
+            <a class="tab right open-click" href="#debug">...</a>
+            <div class="panel right">
+                <h2>robot.data</h2>
+                <table id="debug-table" >
+                    <tr id="curX-row">
+                        <td>Current X: </td>
+                        <td id="curX-update"></td>
+                    </tr>
+                    <tr id="curY-row">
+                        <td>Current Y: </td>
+                        <td id="curY-update"></td>
+                    </tr>
+                    <tr id="destX-row">
+                        <td>Dest X: </td>
+                        <td id="destX-update"></td>
+                    </tr>
+                    <tr id="destY-row">
+                        <td>Dest Y: </td>
+                        <td id="destY-update"></td>
+                    </tr>
+                    <tr id="isActive">
+                        <td>Active: </td>
+                        <td id="active-update"></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -86,6 +116,19 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
 <script src="js/robot.js"></script>
 <script>
 
+    function updateDebug () {
+        'use strict';
+        var curPos;
+        curPos = robot.getCurrentPos();
+        //console.log('posX: ' + curPos.x + ' poxY: ' + curPos.y);
+        //console.log(robot.active);
+        $('#curX-update').html(robot.currentPosition.x);
+        $('#curY-update').html(robot.currentPosition.y);
+        $('#destX-update').html(robot.destinationPosition.x);
+        $('#destY-update').html(robot.destinationPosition.y);
+        $('#active-update').html(robot.active);
+    };
+
 
     $(document).ready(function () {
         "use strict";
@@ -98,6 +141,8 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
 
         jsApp.onload();
 
+        setInterval('updateDebug()', 500);
+
         $("button").click(function () {
             //console.log(editor.getValue());
             var script = document.createElement ('script');
@@ -105,6 +150,9 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
             script.text = editor.getValue();
             document.getElementById('beta').appendChild(script);
         });
+
+
+
     });
 
 </script>

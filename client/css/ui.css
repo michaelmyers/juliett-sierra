@@ -9,7 +9,7 @@
   color: white; }
   #ui .panel-container {
     width: 500px;
-    height: 300px;
+    height: 330px;
     position: fixed;
     z-index: 50; }
   #ui .panel-container.left {
@@ -79,15 +79,18 @@
     border-bottom-left-radius: 15px; }
   #ui .panel {
     background: black;
-    padding-left: 55px;
-    width: 395px;
-    height: 300px;
+    width: 385px;
+    height: 330px;
     filter: alpha(opacity=85);
-    opacity: 0.85; }
+    opacity: 0.85;
+    padding-top: 5px;
+    padding-bottom: 5px; }
   #ui .panel.left {
     position: absolute;
     top: 0px;
     left: 0px;
+    padding-left: 55px;
+    padding-right: 10px;
     -moz-border-radius-bottomright: 15px;
     -webkit-border-bottom-right-radius: 15px;
     border-bottom-right-radius: 15px; }
@@ -95,6 +98,8 @@
     position: absolute;
     top: 0px;
     right: 0px;
+    padding-right: 55px;
+    padding-left: 10px;
     -moz-border-radius-bottomleft: 15px;
     -webkit-border-bottom-left-radius: 15px;
     border-bottom-left-radius: 15px; }

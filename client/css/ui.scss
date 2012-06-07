@@ -31,7 +31,7 @@ $tab-padding: 10px;
   $tab-width: 50px;
   $panel-width: $outer-width - $tab-width;
   //heights
-  $outer-height: 300px;
+  $outer-height: 330px;
   $tab-height: 50px;
   $panel-height: $outer-height;
   //radii
@@ -39,7 +39,10 @@ $tab-padding: 10px;
   $panel-radius: 15px;
 
   //panel-padding
-  $panel-padding-width: 55px;
+  $panel-padding-strong: 55px;
+  $panel-padding-weak: 10px;
+  $panel-padding-top: 5px;
+  $panel-padding-bottom: 5px;
 
   color: $text-color;
 
@@ -54,7 +57,6 @@ $tab-padding: 10px;
   .panel-container.left {
     right: 100%; //want this to be 100%
     margin-right: -$tab-width;
-
     -moz-transition:margin 0.3s linear;
     -o-transition:margin 0.3s linear;
     -webkit-transition:margin 0.3s linear;
@@ -128,16 +130,19 @@ $tab-padding: 10px;
   //test-panel
   .panel {
     background: $panel-color;
-    padding-left: $panel-padding-width;
-    width: $panel-width - $panel-padding-width;
+    width: $panel-width - $panel-padding-strong - $panel-padding-weak;
     height: $outer-height;
     filter: alpha(opacity = $opacity * 100);
     opacity: $opacity;
+    padding-top: $panel-padding-top;
+    padding-bottom: $panel-padding-bottom;
   }
   .panel.left{
     position: absolute;
     top: 0px;
     left: 0px;
+    padding-left: $panel-padding-strong;
+    padding-right: $panel-padding-weak;
     -moz-border-radius-bottomright: $panel-radius;
     -webkit-border-bottom-right-radius: $panel-radius;
     border-bottom-right-radius: $panel-radius;
@@ -146,6 +151,8 @@ $tab-padding: 10px;
     position: absolute;
     top: 0px;
     right: 0px;
+    padding-right: $panel-padding-strong;
+    padding-left: $panel-padding-weak;
     -moz-border-radius-bottomleft: $panel-radius;
     -webkit-border-bottom-left-radius: $panel-radius;
     border-bottom-left-radius: $panel-radius;

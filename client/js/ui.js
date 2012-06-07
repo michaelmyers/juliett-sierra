@@ -20,7 +20,7 @@ $(document).ready(function () {
     detectBrowser();
 
     $('.open-click').click(function () {  //with this test-click and test-hover go on the entire div
-        $(this).toggleClass('open');
+        $(this).parent().toggleClass('open');
         return false;
     });
 });
@@ -28,6 +28,6 @@ $(document).ready(function () {
 
 /*
  *Notes:
-
- * test-hover needs to be on the entire div, ie the test-panel-container
+ * open-hover needs to be on the entire div, ie the test-panel-container
+ * open-click is added to the tab
  */

@@ -8,16 +8,39 @@
              curYPos: false, curXPos: false */
 
 
-var RobotPosition = function () {
+var RobotPosition = function (conX, conY) {
     "use strict";
+    if (conX !== null) {
+        this.x = conX;
+    } else {
+        this.x = null;
+    }
+    if (conY !== null) {
+        this.y = conY;
+    } else {
+        this.y = null;
+    }
 
-    this.x = null;
-    this.y = null;
+};
+
+RobotPosition.prototype.computeDifferenceX = function (pos) {
+    'use strict';
+    return Math.abs(this.x - pos.x);
+
+};
+
+RobotPosition.prototype.computeDifferencY = function (pos) {
+    'use strict';
+    return Math.abs(this.y - pos.y);
 };
 
 
 var robot = {
-    active : false
+    active : false,
+    currentPosition: new RobotPosition(), //not sure if this will be useful yet
+    destinationPosition: new RobotPosition()
+
+    //maybe add init method that passes an update() method into setInterval?
 };
 
 robot.directions = ['left', 'right', 'up', 'down', 'downleft', 'downright', 'upleft', 'upright'];
@@ -74,11 +97,11 @@ robot.move = function (direction, millisecs) {
     }
 
     setTimeout(function () {
-        robot.stop();
+        robot.stopAll();
     }, millisecs);
 };
 
-robot.stop = function () {
+robot.stopAll = function () {
     'use strict';
     left = false;
     right = false;
@@ -87,13 +110,63 @@ robot.stop = function () {
     robot.active = false;
 };
 
+robot.stopDirection = function (direction) {
+    "use strict";
+    if (!robot.setDirection(direction)) {
+        console.log('Bad directions');
+        return false;
+    }
+    switch (direction) {
+    case 'left':
+        left = false;
+        break;
+    case 'right':
+        right = false;
+        break;
+    case 'up':
+        up = false;
+        break;
+    case 'down':
+        down = false;
+        break;
+    }
+    return true;
+};
+
+robot.stopHorizontal = function () {
+    'use strict';
+    return robot.stopDirection('left') && robot.stopDirection('right');
+};
+
+robot.stopVertical = function () {
+    'use strict';
+    return robot.stopDirection('up') && robot.stopDirection('down');
+};
+
 robot.getCurrentPos = function () {
     "use strict";
-    var curPos = new RobotPosition();
-    curPos.x = curXPos;
-    curPos.y = curYPos;
 
+    var curPos = new RobotPosition();
+    curPos.x = robot.currentPosition.x;
+    curPos.y = robot.currentPosition.y;
     return curPos;
+};
+
+robot.setDestination = function (robotPos) {
+    "use strict";
+    //console.log('old pos: x: ' + robot.destinationPosition.x + ' y: ' + robot.destinationPosition.y );
+    //console.log('new pos: x: ' + robotPos.x + ' y: ' + robotPos.y);
+    robot.destinationPosition = robotPos;
+    //console.log('destPos: x: ' + robot.destinationPosition.x + ' y: ' + robot.destinationPosition.y);
+
+    return false;
+};
+
+robot.getDestination = function () {
+    "use strict";
+    var destPos = new RobotPosition();
+    destPos = robot.destinationPosition;
+    return destPos;
 };
 
 robot.distanceTo = function (newPos) {
@@ -109,22 +182,49 @@ robot.moveTo = function (newPos) {
     "use strict";
     var curPos, difX, difY;
 
+    robot.setDestination(newPos);
+
     curPos = robot.getCurrentPos();
+
+    //get the different initially without abs val to determine direction
     difX = newPos.x - curPos.x;
     difY = newPos.y - curPos.y;
 
     if (difX > 0) { //if difference between points is positive
+        robot.setDirection('right');
+    } else if (difX < 0) {
         robot.setDirection('left');
     } else {
-        robot.setDirection('right');
+        robot.stopHorizontal();
     }
 
     if (difY > 0) {
+        robot.setDirection('down');
+    } else if (difY < 0) {
         robot.setDirection('up');
+    } else {
+        robot.stopVertical();
     }
 
+    //reusing variables to home in on the position
 
+    difX = robot.currentPosition.computeDifferenceX(newPos);
+    difX = robot.currentPosition.computeDifferenceX(newPos);
 
+    //you cannot do this kind of loop in JS, it takes control of the single thread and kills the script
+    /*while (difX !== 0 && difY !== 0) {
+        if (difX === 0 || difX < 0) {
+            robot.stopHorizontal();
+
+        }
+        if (difY === 0 || difY < 0) {
+            robot.stopVertical();
+        }
+
+        difX = robot.currentPosition.computeDifferenceX(newPos);
+        difX = robot.currentPosition.computeDifferenceX(newPos);
+        //console.log('difX: ' + difX + ' difY: ' + difY);
+    }  */
 
 };
 

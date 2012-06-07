@@ -2106,7 +2106,7 @@ jQuery.fn.extend({
 
 		return this.queue( type, function( next, hooks ) {
 			var timeout = setTimeout( next, time );
-			hooks.stop = function() {
+			hooks.stopAll = function() {
 				clearTimeout( timeout );
 			};
 		});
@@ -8468,7 +8468,7 @@ jQuery.fn.extend({
 			this.queue( optall.queue, doAnimation );
 	},
 
-	stop: function( type, clearQueue, gotoEnd ) {
+	stopAll: function( type, clearQueue, gotoEnd ) {
 		if ( typeof type !== "string" ) {
 			gotoEnd = clearQueue;
 			clearQueue = type;
@@ -8492,16 +8492,16 @@ jQuery.fn.extend({
 			function stopQueue( elem, data, index ) {
 				var hooks = data[ index ];
 				jQuery.removeData( elem, index, true );
-				hooks.stop( gotoEnd );
+				hooks.stopAll( gotoEnd );
 			}
 
 			if ( type == null ) {
 				for ( index in data ) {
-					if ( data[ index ] && data[ index ].stop && index.indexOf(".run") === index.length - 4 ) {
+					if ( data[ index ] && data[ index ].stopAll && index.indexOf(".run") === index.length - 4 ) {
 						stopQueue( this, data, index );
 					}
 				}
-			} else if ( data[ index = type + ".run" ] && data[ index ].stop ){
+			} else if ( data[ index = type + ".run" ] && data[ index ].stopAll ){
 				stopQueue( this, data, index );
 			}
 
@@ -8798,13 +8798,13 @@ jQuery.extend( jQuery.fx, {
 		}
 
 		if ( !timers.length ) {
-			jQuery.fx.stop();
+			jQuery.fx.stopAll();
 		}
 	},
 
 	interval: 13,
 
-	stop: function() {
+	stopAll: function() {
 		clearInterval( timerId );
 		timerId = null;
 	},
