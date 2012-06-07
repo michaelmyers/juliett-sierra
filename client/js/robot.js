@@ -107,16 +107,27 @@ robot.distanceTo = function (newPos) {
 
 robot.moveTo = function (newPos) {
     "use strict";
-    var curPos;
+    var curPos, difX, difY;
+
     curPos = robot.getCurrentPos();
+    difX = newPos.x - curPos.x;
+    difY = newPos.y - curPos.y;
 
-    if (newPos.y < curPos.y) {
+    if (difX > 0) { //if difference between points is positive
+        robot.setDirection('left');
+    } else {
+        robot.setDirection('right');
+    }
 
+    if (difY > 0) {
+        robot.setDirection('up');
     }
 
 
 
+
 };
+
 
 robot.moveUnit = function (direction, units) {
     "use strict";
