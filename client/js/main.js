@@ -200,8 +200,10 @@ var PlayerEntity = me.ObjectEntity.extend({
         }
         curXPos = this.pos.x;
         robot.currentPosition.x = this.pos.x;
+        //now.logStuff('X ' + robot.currentPosition.x);
         curYPos = this.pos.y;
         robot.currentPosition.y = this.pos.y;
+        //now.logStuff('Y ' + robot.currentPosition.y);
     }
 });
 

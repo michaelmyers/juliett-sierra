@@ -114,6 +114,9 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
 
 <script src="js/main.js"></script>
 <script src="js/robot.js"></script>
+
+<script type="text/javascript" src="http://localhost:8080/nowjs/now.js"></script>
+
 <script>
 
     function updateDebug () {
@@ -155,6 +158,15 @@ chromium.org/developers/how-tos/chrome-frame-getting-started -->
 
     });
 
+</script>
+
+<script type="text/javascript">
+    now.ready(function(){
+        // "Hello World!" will print on server
+
+        robot.serverCommsReader = true;
+        robot.debugServer = true;
+    });
 </script>
 <!-- end scripts -->
 
